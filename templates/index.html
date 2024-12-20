@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de Datos de Películas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2d3436;
+            color: #dfe6e9;
+            font-family: 'Arial', sans-serif;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #00cec9;
+        }
+        .table-container {
+            margin-top: 30px;
+        }
+        .form-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .btn-custom {
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Base de Datos de Películas</h1>
+
+        <div class="form-container">
+            <form action="/agregar" method="post" class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" name="titulo" class="form-control" placeholder="Título de la película" required>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="estreno" name="estreno">
+                        <label class="form-check-label" for="estreno">¿Es de estreno?</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Agregar Película</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Título</th>
+                        <th>Estreno</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pelicula in peliculas %}
+                    <tr>
+                        <td>{{ pelicula.id }}</td>
+                        <td>{{ pelicula.titulo }}</td>
+                        <td>{{ "Sí" if pelicula.estreno else "No" }}</td>
+                        <td>
+                            <form action="/alternar_estreno/{{ pelicula.id }}" method="post" style="display: inline-block;">
+                                <button type="submit" class="btn btn-info btn-sm btn-custom">
+                                    Alternar Estreno
+                                </button>
+                            </form>
+                            <form action="/eliminar/{{ pelicula.id }}" method="post" style="display: inline-block;">
+                                <button type="submit" class="btn btn-danger btn-sm btn-custom">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
